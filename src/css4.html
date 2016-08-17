@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0px;
+        }
+
+        p.warning {
+            border: solid red;
+            border-width: 4px 1px 1px 4px;
+        }
+
+        p.testNoPadding {
+            border: solid green;
+            background-color: #caebff;
+            font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
+            width: 220px;
+
+        }
+
+        p.testHavePadding {
+            border: solid green;
+            background-color: #caebff;
+            font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif; /*字体设置*/
+            width: 220px;
+            padding: 10px; /*内边距*/
+        }
+    </style>
+</head>
+<body>
+<p class="warning">
+    测试段落
+</p>
+
+<p class="testNoPadding">
+    测试内容与边框之间的距离,默认没有内边距
+</p>
+
+<p class="testHavePadding">
+    测试内容与边框之间的距离,给定内边距
+</p>
+</body>
+</html>

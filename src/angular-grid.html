@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>grid</title>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <script src="js/angular-ui-grid/ui-grid.js"></script>
+    <link href="js/angular-ui-grid/ui-grid.css">
+    <script src="js/angular-touch/angular-touch.js"></script>
+</head>
+<body>
+<div ng-controller="MainCtrl">
+    <div id="grid1" ui-grid="{ data: myData }" class="grid"></div>
+</div>
+</body>
+</html>
+
+<script>
+    var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.edit']);
+
+    app.controller('MainCtrl', ['$scope', function ($scope) {
+
+        $scope.myData = [
+            {
+                "firstName": "Cox",
+                "lastName": "Carney",
+                "company": "Enormo",
+                "employed": true
+            },
+            {
+                "firstName": "Lorraine",
+                "lastName": "Wise",
+                "company": "Comveyer",
+                "employed": false
+            },
+            {
+                "firstName": "Nancy",
+                "lastName": "Waters",
+                "company": "Fuelton",
+                "employed": false
+            }
+        ];
+
+    }]);
+</script>
