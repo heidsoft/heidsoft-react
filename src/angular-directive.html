@@ -11,6 +11,56 @@
     <div my-customer2></div>
     <div my-customer3 type="name"></div>
     <div my-customer3 type="address"></div>
+    <my-customer4></my-customer4>
+</div>
+
+<div ng-controller="Controller2">
+    <my-customer4></my-customer4>
+</div>
+
+<div ng-controller="Controller3">
+    <my-customer5 info="heidsoft"></my-customer5>
+    <my-customer5 info="oneoaas"></my-customer5>
+</div>
+
+<div ng-controller="Controller4">
+    日期格式: <input ng-model="format">
+    <hr/>
+    当前时间: <span my-current-time="format"></span>
+</div>
+
+<div ng-controller="Controller5">
+    <my-customer6 info="naomi"></my-customer6>
+</div>
+
+<div ng-controller="Controller6">
+    <my-dialog>输出内容, {{name}}!</my-dialog>
+</div>
+<div ng-controller="Controller7">
+    <my-dialog>输出内容, {{name}}!</my-dialog>
+</div>
+
+<div ng-controller="Controller8">
+    {{message}}
+    <my-dialog3 ng-hide="dialogIsHidden" on-close="hideDialog(message)">
+        输出内容, {{name}}!
+    </my-dialog3>
+</div>
+
+<div>
+    <span my-draggable>Drag Me</span>
+</div>
+
+<div>
+    <my-tabs>
+        <my-pane title="Hello">
+            <p>Lorem ipsum dolor sit amet</p>
+        </my-pane>
+        <my-pane title="World">
+            <em>Mauris elementum elementum enim at suscipit.</em>
+            <p><a href ng-click="i = i + 1">counter: {{i || 0}}</a></p>
+        </my-pane>
+    </my-tabs>
 </div>
 </body>
 </html>
@@ -19,7 +69,42 @@
             .controller('Controller', ['$scope', function($scope) {
                 $scope.customer = {
                     name: 'heidsoft',
+                    address: '北京'
+                };
+            }])
+            .controller('Controller2', ['$scope', function ($scope) {
+                $scope.customer = {
+                    name: 'oneoaas',
                     address: '上海'
+                };
+            }])
+            .controller('Controller3', ['$scope', function ($scope) {
+                $scope.heidsoft = {name: 'heidsoft', address: '北京'};
+                $scope.oneoaas = {name: 'oneoaas', address: '上海'};
+            }])
+            .controller('Controller4', ['$scope', function ($scope) {
+                $scope.format = 'M/d/yy h:mm:ss a';
+            }])
+            .controller('Controller5', ['$scope', function ($scope) {
+                $scope.naomi = {name: 'Naomi', address: '1600 Amphitheatre'};
+                $scope.vojta = {name: 'Vojta', address: '3456 Somewhere Else'};
+            }])
+            .controller('Controller6', ['$scope', function ($scope) {
+                $scope.name = '测试dialog';
+            }])
+            .controller('Controller7', ['$scope', function ($scope) {
+                $scope.name = "测试dialog2";
+            }])
+            .controller('Controller8', ['$scope', '$timeout', function ($scope, $timeout) {
+                $scope.name = 'Tobias';
+                $scope.message = '';
+                $scope.hideDialog = function (message) {
+                    $scope.message = message;
+                    $scope.dialogIsHidden = true;
+                    $timeout(function () {
+                        $scope.message = '';
+                        $scope.dialogIsHidden = false;
+                    }, 2000);
                 };
             }])
             .directive('myCustomer', function() {
@@ -41,6 +126,165 @@
                         console.log(attr);
                         return 'customer-'+attr.type+'.html';
                     }
+                };
+            })
+            .directive('myCustomer4', function () {
+                //限制指令,只能当元素使用
+                return {
+                    restrict: 'E',
+                    template: '姓名: {{customer.name}} 地址: {{customer.address}}'
+                };
+            })
+            .directive('myCustomer5', function () {
+                return {
+                    restrict: 'E',
+                    scope: {
+                        customerInfo: '=info'
+                    },
+                    templateUrl: 'my-customer-iso.html'
+                };
+            })
+            .directive('myCurrentTime', ['$interval', 'dateFilter', function ($interval, dateFilter) {
+
+                function link(scope, element, attrs) {
+                    var format,
+                            timeoutId;
+
+                    function updateTime() {
+                        element.text(dateFilter(new Date(), format));
+                    }
+
+                    scope.$watch(attrs.myCurrentTime, function (value) {
+                        format = value;
+                        updateTime();
+                    });
+
+                    element.on('$destroy', function () {
+                        $interval.cancel(timeoutId);
+                    });
+
+                    // start the UI update process; save the timeoutId for canceling
+                    timeoutId = $interval(function () {
+                        updateTime(); // update DOM
+                    }, 1000);
+                }
+
+                return {
+                    link: link
+                };
+            }])
+            .directive('myCustomer6', function () {
+                return {
+                    restrict: 'E',
+                    scope: {
+                        customerInfo: '=info'
+                    },
+                    templateUrl: 'my-customer-plus-vojta.html'
+                };
+            })
+            .directive('myDialog', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,//表示在元素之间可,嵌入内容
+                    scope: {},
+                    templateUrl: 'my-dialog.html'
+                };
+            })
+            .directive('myDialog2', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {},
+                    templateUrl: 'my-dialog.html',
+                    link: function (scope) {
+                        scope.name = '测试';
+                    }
+                };
+            })
+            .directive('myDialog3', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {
+                        'close': '&onClose'
+                    },
+                    templateUrl: 'my-dialog-close.html'
+                };
+            })
+            .directive('myDraggable', ['$document', function ($document) {
+                return {
+                    link: function (scope, element, attr) {
+                        var startX = 0, startY = 0, x = 0, y = 0;
+
+                        element.css({
+                            position: 'relative',
+                            border: '1px solid red',
+                            backgroundColor: 'green',
+                            cursor: 'pointer'
+                        });
+
+                        element.on('mousedown', function (event) {
+                            // Prevent default dragging of selected content
+                            event.preventDefault();
+                            startX = event.pageX - x;
+                            startY = event.pageY - y;
+                            $document.on('mousemove', mousemove);
+                            $document.on('mouseup', mouseup);
+                        });
+
+                        function mousemove(event) {
+                            y = event.pageY - startY;
+                            x = event.pageX - startX;
+                            element.css({
+                                top: y + 'px',
+                                left: x + 'px'
+                            });
+                        }
+
+                        function mouseup() {
+                            $document.off('mousemove', mousemove);
+                            $document.off('mouseup', mouseup);
+                        }
+                    }
+                };
+            }])
+            .directive('myTabs', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {},
+                    controller: ['$scope', function ($scope) {
+                        var panes = $scope.panes = [];
+
+                        $scope.select = function (pane) {
+                            angular.forEach(panes, function (pane) {
+                                pane.selected = false;
+                            });
+                            pane.selected = true;
+                        };
+
+                        this.addPane = function (pane) {
+                            if (panes.length === 0) {
+                                $scope.select(pane);
+                            }
+                            panes.push(pane);
+                        };
+                    }],
+                    templateUrl: 'my-tabs.html'
+                };
+            })
+            .directive('myPane', function () {
+                return {
+                    require: '^^myTabs',
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {
+                        title: '@'
+                    },
+                    link: function (scope, element, attrs, tabsCtrl) {
+                        tabsCtrl.addPane(scope);
+                    },
+                    templateUrl: 'my-pane.html'
                 };
             });
 </script>
