@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="docsSimpleDirective">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body>
+<div ng-controller="Controller">
+    <div my-customer></div>
+    <div my-customer2></div>
+    <div my-customer3 type="name"></div>
+    <div my-customer3 type="address"></div>
+</div>
+</body>
+</html>
+<script>
+    angular.module('docsSimpleDirective', [])
+            .controller('Controller', ['$scope', function($scope) {
+                $scope.customer = {
+                    name: 'heidsoft',
+                    address: '上海'
+                };
+            }])
+            .directive('myCustomer', function() {
+                //Template-expanding directive
+                return {
+                    template: '姓名: {{customer.name}} 地址: {{customer.address}}'
+                };
+            })
+            .directive('myCustomer2', function() {
+                //Template-expanding directive
+                return {
+                    templateUrl: 'my-customer.html'
+                };
+            })
+            .directive('myCustomer3', function() {
+                return {
+                    templateUrl: function(elem, attr){
+                        console.log(elem);
+                        console.log(attr);
+                        return 'customer-'+attr.type+'.html';
+                    }
+                };
+            });
+</script>
