@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*
+            没有宽度的盒子
+        */
+        body {
+            font-family: Helvetica, sans-serif, Arial;
+            font-size: 1em;
+            margin: 0px;
+            background-color: #caebff;
+        }
+
+        p {
+            width: 400px;
+            margin: 0 30px;
+            background-color: #ffffff;
+            padding: 0 30px; /*上下是0,左右是20px的边距*/
+            border: solid red;
+            border-width: 0 6px;
+        }
+    </style>
+</head>
+<body>
+<p>
+    没有宽度的盒子
+    Sort. A map stores its keys in an order that makes them fast to look up. We cannot sort a map. But we can extract
+    the keys (or values) from a map and sort them.
+    Sort: keys in map
+
+    String slices. One common kind of map has string slices as the values. In another example, we append strings to the
+    values in a string slice map.
+    Map, String Slices
+
+    Struct keys. A struct can be used as the key to a map. With structs, we can create compound keys. A key can contain
+    an int and a string together.
+    Struct: map keys
+
+    A summary. We used the map built-in to link keys to values. We tested that keys exist and we retrieved the
+    appropriate values. A map provides a clear performance win.
+</p>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片文本环绕</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif, Arial;
+            font-size: 1em;
+            margin: 0px;
+            background-color: #caebff;
+        }
+
+        p {
+            float: left;
+            width: 400px;
+            margin: 0px;
+            border: 1px solid red;
+        }
+
+        img {
+            float: left;
+            margin: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+<img src="img/1.png">
+<p>
+<h1>图片文本环绕</h1>
+Int array. In JSON we can have arrays that contain values (like 100, 200, 300). These are labeled with a key (like
+Positions). Here we handle an int array and get an int slice from it.
+Result:
+This struct contains an int slice with field name Positions. This where the int array values are placed.
+Unmarshal:
+We use this to convert our byte array of JSON data into a single struct. Finally we print values on the Result struct.
+Golang program that handles int array in JSON
+
+package main
+
+import (
+"encoding/json"
+"fmt"
+)
+
+type Result struct {
+Positions []int
+}
+
+func main() {
+// This JSON contains an int array.
+text := "{\"Positions\": [100, 200, 300, -1]}"
+// Get bytes.
+bytes := []byte(text)
+
+// Unmarshal JSON to Result struct.
+var result Result
+json.Unmarshal(bytes, &result)
+
+// Our int array is filled.
+fmt.Printf("Positions = %v", result.Positions)
+fmt.Println()
+// Print int array length.
+fmt.Printf("Length = %v", len(result.Positions))
+fmt.Println()
+}
+</p>
+</body>
+</html>
