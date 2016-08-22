@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三栏布局</title>
+    <style>
+        #wrapper {
+            width: 960px;
+            margin: 0 auto;
+            border: 1px solid;
+        }
+
+        header {
+            background: #38d315;
+        }
+
+        nav {
+            width: 150px;
+            float: left;
+            background: #5cb85c;
+        }
+
+        nav .inner {
+            padding: 10px;
+        }
+
+        nav li {
+            /*去掉列表项目符号*/
+            list-style-type: none;
+        }
+
+        article {
+            width: 600px;
+            float: left;
+            background: #caebff;
+            /*padding: 10px 20px;*/
+        }
+
+        article .inner {
+            padding: 10px 20px;
+        }
+
+        aside {
+            width: 210px;
+            float: left;
+            background: #2ea8e5;
+        }
+
+        aside .inner {
+            padding: 10px;
+        }
+
+        footer {
+            clear: left;
+            background: #ffcc00;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <header>
+        <div class="inner">
+
+        </div>
+        固定宽度布局头
+    </header>
+    <nav>
+        <!--无序列表-->
+        <div class="inner">
+            <li>
+                1
+            </li>
+            <li>
+                2
+            </li>
+            <li>
+                3
+            </li>
+        </div>
+    </nav>
+    <article>
+        <div class="inner">
+            error 类型实际上是抽象了 Error() 方法的 error 接口，Golang 使用该接口进行标准的错误处理。
+            type error interface {
+             Error() string
+            }
+
+            一般情况下，如果函数需要返回错误，就将 error 作为多个返回值中的最后一个（但这并非是强制要求）。参考模型：
+            复制代码代码如下:
+            func Foo(param int) (n int, err error) {
+             // ...
+            }
+
+            if n, err := Foo(0); err != nil {
+                    // 错误处理
+            }
+
+            这就是 error 的使用方法，与其他语言的异常相比，Golang 的方法相对更加容易、直观。
+        </div>
+    </article>
+
+    <aside>
+        <div class="inner">
+            import (
+             "errors"
+             "fmt"
+            )
+            func requireDual(n int) (int, error) {
+             if n&1 == 1 {
+              return -1, errors.New("您输入不是双数") //生成一个简单的 error 类型
+             }
+        </div>
+    </aside>
+
+    <footer>
+        固定宽度布尾
+    </footer>
+</div>
+</body>
+</html>
