@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试广播数据</title>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="Controller1">
+    <button ng-click="test1();">测试广播数据</button>
+    <div ng-controller="Controller2">
+
+    </div>
+</div>
+</body>
+<script>
+    angular.module("app", [])
+            .controller("Controller1", ['$scope', '$rootScope', function ($scope, $rootScope) {
+                $scope.test1 = function () {
+                    console.log("test1....");
+                    $rootScope.$broadcast("test1", "hello Controller2")
+                }
+
+            }])
+            .controller("Controller2", ['$scope', function ($scope) {
+                $scope.$on('test1', function (e, listener) {
+                    console.log(e);
+                    console.log(listener);
+                })
+            }])
+</script>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试广播数据</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="Controller1">
+    <button ng-click="broadcast()">Broadcast 1</button>
+    <button ng-click="emit()">Emit 1</button>
+</div>
+
+<div ng-controller="Controller2">
+    <button ng-click="broadcast()">Broadcast 2</button>
+    <button ng-click="emit()">Emit 2</button>
+    <div ng-controller="Controller3">
+        <button ng-click="broadcast()">Broadcast 3</button>
+        <button ng-click="emit()">Emit 3</button>
+        <br>
+        <button ng-click="broadcastRoot()">Broadcast Root</button>
+        <button ng-click="emitRoot()">Emit Root</button>
+    </div>
+</div>
+
+<textarea name="log" id="log" cols="55" rows="30"></textarea>
+</body>
+<script>
+    var app = angular.module('app', []);
+
+    app.controller('Controller1', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $scope.broadcast = function () {
+            $scope.$broadcast('eventX', {source: '$scope.broadcast1'});
+        };
+        $scope.emit = function () {
+            $scope.$emit('eventX', {source: '$scope.emit1'});
+        };
+
+        $scope.$on('eventX', function (ev, args) {
+            log('Controller1 source: ' + args.source);
+        });
+        $rootScope.$on('eventX', function (ev, args) {
+            log('$rootScope  source: ' + args.source);
+        });
+    }]);
+
+    app.controller('Controller2', ['$scope', function ($scope) {
+        $scope.broadcast = function () {
+            $scope.$broadcast('eventX', {source: '$scope.broadcast2'});
+        };
+        $scope.emit = function () {
+            $scope.$emit('eventX', {source: '$scope.emit2'});
+        };
+
+        $scope.$on('eventX', function (ev, args) {
+            log('Controller2 source: ' + args.source);
+        });
+    }]);
+
+    app.controller('Controller3', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $scope.broadcast = function () {
+            $scope.$broadcast('eventX', {source: '$scope.broadcast3'});
+        };
+        $scope.emit = function () {
+            $scope.$emit('eventX', {source: '$scope.emit3'});
+        };
+        $scope.broadcastRoot = function () {
+            $rootScope.$broadcast('eventX', {source: '$rootScope.broadcastRoot'});
+        };
+        $scope.emitRoot = function () {
+            $rootScope.$emit('eventX', {source: '$rootScope.emitRoot'});
+        };
+
+        $scope.$on('eventX', function (ev, args) {
+            log('Controller3 source: ' + args.source);
+        });
+    }]);
+
+    function log(msg) {
+        $('#log').val($('#log').val() + msg + '\n');
+    }
+</script>
+</html>

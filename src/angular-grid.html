@@ -1,45 +1,83 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="app">
+<!doctype html>
+<html ng-app="app">
 <head>
-    <meta charset="UTF-8">
-    <title>grid</title>
-    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
-    <script src="js/angular-ui-grid/ui-grid.js"></script>
-    <link href="js/angular-ui-grid/ui-grid.css">
-    <script src="js/angular-touch/angular-touch.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+    <script src="http://ui-grid.info/release/ui-grid-unstable.js"></script>
+    <link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
+    <style>
+        .grid {
+            width: 100%;
+            height: 400px;
+        }
+
+        .ui-grid-row {
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .ui-grid-cell {
+            background-color: transparent !important;
+        }
+
+        .ui-grid-row-selected {
+            background-color: #c9dde1;
+        }
+
+    </style>
 </head>
 <body>
 <div ng-controller="MainCtrl">
-    <div id="grid1" ui-grid="{ data: myData }" class="grid"></div>
+    <div ui-grid="gridOptions" ui-grid-selection class="grid"></div>
 </div>
-</body>
-</html>
-
 <script>
-    var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.edit']);
+    var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.selection']);
 
-    app.controller('MainCtrl', ['$scope', function ($scope) {
+    app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridConstants', function ($scope, $http, $interval, uiGridConstants) {
+        $scope.gridOptions = {
+            enableRowSelection: true,
+            enableRowHeaderSelection: false,
+            enableColumnMenus: false
+        };
 
-        $scope.myData = [
-            {
-                "firstName": "Cox",
-                "lastName": "Carney",
-                "company": "Enormo",
-                "employed": true
-            },
-            {
-                "firstName": "Lorraine",
-                "lastName": "Wise",
-                "company": "Comveyer",
-                "employed": false
-            },
-            {
-                "firstName": "Nancy",
-                "lastName": "Waters",
-                "company": "Fuelton",
-                "employed": false
-            }
+        $scope.gridOptions.columnDefs = [
+            {name: 'id', width: 50},
+            {name: 'name', width: 200},
+            {name: 'age', width: 75, displayName: 'Age'},
+            {name: 'address.city', width: 150}
         ];
 
+        $scope.gridOptions.multiSelect = false;
+        $scope.gridOptions.modifierKeysToMultiSelect = false;
+        $scope.gridOptions.noUnselect = true;
+        $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+            $scope.gridApi.selection.on.rowSelectionChangedBatch($scope, function (rows) {
+                console.log(rows);
+            });
+        };
+
+        $scope.toggleRowSelection = function () {
+            $scope.gridApi.selection.clearSelectedRows();
+            $scope.gridOptions.enableRowSelection = !$scope.gridOptions.enableRowSelection;
+            $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
+        };
+
+        $http.get('https://cdn.rawgit.com/angular-ui/ui-grid.info/gh-pages/data/500_complex.json')
+                .success(function (data) {
+                    $scope.gridOptions.data = data;
+
+                    // $interval whilst we wait for the grid to digest the data we just gave it
+                    $interval(function () {
+                        $scope.gridApi.selection.selectRow($scope.gridOptions.data[0]);
+                    }, 0, 1);
+                });
+
     }]);
+
 </script>
+</body>
+</html>
