@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularjs 编译指令</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="Controller1"></div>
+<div id="a">A {{ text }}</div>
+<div id="b">B</div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('Controller1', ['$scope', '$compile', function ($scope, $compile) {
+        var link = $compile($('#a'));
+
+        //true参数表示新建一个完全隔离的scope,而不是继承的child scope
+        var scope = $scope.$new(true);
+        scope.text = '12345';
+
+        //var node = link(scope, function(){});
+        var node = link(scope);
+
+        console.log(node);
+        $('#b').append(node);
+    }]);
+</script>
+</html>
