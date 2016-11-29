@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="Controller1 as demo">
+    {{demo.data}}
+</div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('Controller1', Controller1);
+    Controller1.$inject = ['$scope'];
+
+    //推荐写法
+    function Controller1($scope) {
+        var demo = this;
+        demo.data = "hello";
+        console.log(demo);
+    }
+</script>
+</html>
