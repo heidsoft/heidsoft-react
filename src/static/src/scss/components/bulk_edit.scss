@@ -1,0 +1,30 @@
+.bulk-edit {
+    overflow-x: auto;
+    .vTextField, .vURLField, select {
+        min-width: 180px;
+    }
+    .vLargeTextField {
+        min-width:150px;
+        height: 60px;
+    }
+    input[type="number"] {
+        min-width:80px;
+    }
+    .widget-wrapper {
+        min-width: 180px;
+        input {
+            width:100px;
+        }
+    }
+    .bulk-edit-fill {
+        position: absolute;
+        display: none;
+        right: 2px;
+    }
+    .fill-changed {
+        background: #DEFADB;
+    }
+    td {
+        padding-right:10px;
+    }
+}

@@ -1,0 +1,12 @@
+form .row .related-widget-wrapper.row {
+    margin-left: 0;
+    .widget {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .related-widget-wrapper-link {
+            margin: 3px;
+        }
+    }
+}

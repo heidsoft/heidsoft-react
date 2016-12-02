@@ -1,0 +1,98 @@
+@import 'colors';
+
+@mixin cell-border() {
+    border: 1px solid #D8D8D8;
+}
+
+$thead-bg-color: $mdc-blue-grey-50;
+$row-even-bg-color: $mdc-grey-100;
+$row-odd-bg-color: #fff;
+
+
+.action-checkbox {
+    text-align:center;
+}
+
+fieldset.module table {width: 100%;}
+
+table {
+    margin-bottom: 1rem;
+    &.full {
+        width: 100%;
+    }
+    thead {
+        tr {
+            line-height: 2.5rem;
+            th {
+                @include cell-border();
+                background: $thead-bg-color;
+                padding: 5px;
+                text-align: left;
+                &.action-checkbox-column {
+                    text-align: center;
+                    padding-top: .5rem;
+                }
+                .text {
+                    .sort-icon {
+                        color: $mdc-black-dark;
+                    }
+                    .sortoptions {
+                        display: inline;
+                        .sortremove {
+                            color: $mdc-red-500;
+                        }
+                    }
+                    .sort-icon, .sortoptions {
+                        opacity: .5;
+                    }
+                    &:hover {
+                        .sort-icon, .sortoptions {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            line-height: 2rem;
+            &:nth-child(even) {
+                background-color: $row-even-bg-color;
+            }
+            &:nth-child(odd) {
+                background-color: $row-odd-bg-color;
+            }
+            &:nth-child(even):hover {
+                background-color: darken($row-even-bg-color, 1%);
+            }
+            &:nth-child(odd):hover {
+                background-color: darken($row-odd-bg-color, 1%);
+            }
+            td, th {
+                text-align: left;
+                @include cell-border();
+                padding: 5px;
+                &.action-checkbox {
+                    width: 3rem;
+                    padding-top: 0.5rem;
+                    input[type="checkbox"],
+                    input[type="radio"] {
+                        margin: 0;
+                    }
+                }
+                select[multiple] {
+                    height: 100%;
+                }
+                ul {
+                    margin: 0;
+                    li label input[type="checkbox"] {
+                        margin: 0;
+                    }
+                }
+            }
+            td {vertical-align: top;}
+            th {vertical-align: middle;}
+        }
+    }
+}

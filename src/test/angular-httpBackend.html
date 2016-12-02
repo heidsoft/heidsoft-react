@@ -1,0 +1,19 @@
+<html ng-app="phonecatApp">
+<head>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-mocks.js"></script>
+    <script src="app.js"></script>
+    <script src="app-spec.js"></script>
+</head>
+<body ng-controller="PhoneListController">
+
+<ul>
+    <li ng-repeat="phone in phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+    </li>
+</ul>
+
+</body>
+</html>

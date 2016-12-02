@@ -1,0 +1,155 @@
+/* all app scss styles here */
+body {
+    background-color: #fff;
+    .popup {
+        .content {
+            margin-top: 15px;
+        }
+    }
+}
+#content-main {
+    padding-bottom: 60px;
+    .content {
+        border: 1px solid $tabs-border-color;
+        padding: rem-calc(16) 0;
+        background-color: $tabs-content-bg-color;
+        h2 {
+            font-size: rem-calc(16);
+        }
+    }
+}
+
+ul.reset {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.columns.separator {
+    border-left: 1px solid #ddd;
+}
+
+.action-counter {
+    margin-left: 5px;
+}
+
+.row {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+.row .row {
+    margin: 0;
+    width: 100%;
+}
+
+
+.breadcrumbs {
+    border-bottom: 1px solid darken($crumb-bg, 10%);
+    margin-bottom: 10px;
+}
+
+#site-name > a {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, .6);
+    &:hover {
+        text-shadow: 0 0 7px rgb(255, 255, 255);
+        background: $topbar-bg;
+    }
+}
+
+select {
+    background-color: #fff;
+}
+
+
+button.button.search {
+    background-color: #5B5B5B;
+    &:hover {
+        background-color: darken($primary-color, 5%);
+    }
+}
+
+.field-row.error {
+    background-color: $alert-color;
+    margin-bottom: 5px;
+    .error small.error, label.error {
+        margin-bottom: 0;
+        color: $oil;
+    }
+}
+h1 {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.8rem;
+    margin-bottom: rem-calc(4);
+    padding-bottom: 0;
+}
+
+.header {
+    .header-toolbar {
+        float: right;
+        display: inline-flex;
+        .button-group {
+            margin-right: 5px;
+        }
+    }
+}
+
+input.datepicker {
+    width: 100px;
+    position: inherit;
+}
+
+input[type="file"] {
+    width: auto;
+    margin: 0;
+}
+
+.add-related .fa {
+    color: $success-color;
+}
+
+.change-related .fa {
+    color: $warning-color;
+}
+
+.delete-related .fa {
+    color: $alert-color;
+}
+
+.with-icons {
+    line-height: 3rem;
+}
+
+.ellipsis-hidden {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.empty-form {
+    display: none;
+}
+
+.tooltip {
+    .empty {
+        color: #999;
+    }
+}
+
+.tip-warning {
+    color: #FD9C00;
+}
+
+.panel .filter-container {
+    div.filter-header {
+        margin-bottom: 0px;
+        margin-top: rem-calc(15);
+        h6 {
+            display: inline;
+        }
+    }
+}

@@ -1,0 +1,174 @@
+$item-padding: 0.25rem;
+$lookup-icon-width: 25px;
+$icons-count: 2;
+$icons-wrapper-margin: 5px;
+$font-size: rem-calc(16);
+
+@mixin right-lookup() {
+    width: calc(100%  - #{($lookup-icon-width * $icons-count) + $icons-wrapper-margin});
+    float: left;
+}
+
+@mixin common-styles() {
+    padding: $item-padding 0;
+    font-size: $input-font-size;
+}
+
+.autocomplete-widget {
+    position: relative;
+    margin: $form-spacing / 2 0;
+    .widget-wrapper {
+        overflow: hidden;
+        background: $input-bg-color;
+        border: {
+            style: $input-border-style;
+            width: $input-border-width;
+            color: $input-border-color;
+        }
+        box-shadow: $input-box-shadow;
+        .item-wrapper {
+            @include right-lookup;
+            .item {
+                line-height: 1rem;
+                display: inline-block;
+                background: #ededed;
+                border: 1px solid #cacaca;
+                white-space: nowrap;
+                margin: 1px;
+                @include common-styles;
+                width: 100%;
+                .title {
+                    margin-left: $item-padding;
+                    max-width: calc(100% - #{($lookup-icon-width * $icons-count) + $icons-wrapper-margin});
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: inline-block;
+                    line-height: normal;
+                }
+                .autocomplete-icons {
+                    float: right;
+                    display: block;
+                    width: 50px;
+                }
+                .delete {
+                    padding: $item-padding 0;
+                    margin: 0 $item-padding;
+                    cursor: pointer;
+                    color: $alert-color;
+                }
+            }
+            .change-related .fa-pencil {
+                padding: 0 4px;
+            }
+        }
+        .widget-icons {
+            width: #{($lookup-icon-width * $icons-count)};
+            float: right;
+            text-align: right;
+            margin-top: 5px;
+            margin-right: $icons-wrapper-margin;
+            .fa {
+                font-size: $font-size;
+            }
+        }
+        .input {
+            @include right-lookup;
+            @include common-styles;
+            display: none;
+            padding-left: 4px;
+            margin: 4px 0;
+            border: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+        .delete, .title, .related-lookup {
+            font-size: $input-font-size;
+        }
+        .related-lookup {
+            margin: 0;
+            text-align: center;
+            width: $lookup-icon-width;
+            background: none;
+        }
+        .status{
+            position: absolute;
+            top: 8px;
+            right: 45px;
+            .fa {
+                display: none;
+                font-size: $font-size;
+                &.fa-spin {
+                    -webkit-animation-duration: 1s;
+                    animation-duration: 1s;
+                }
+            }
+            .loader {color: #444;}
+            .fail {color: $alert-color;}
+            .success {color: $success-color;}
+        }
+    }
+    &.in-progress .suggest-list {
+        border: none;
+    }
+    .suggest-list {
+        display: none;
+        background: $input-bg-color;
+        border: {
+            style: $input-border-style;
+            width: $input-border-width;
+            color: $input-border-color;
+        }
+        border-top: 0;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        z-index: 10;
+        position: absolute;
+        width: 100%;
+        li {
+            list-style-type: none;
+            margin:0;
+            padding: 0;
+            &.no-results {
+                padding: 5px;
+                font-style: italic;
+            }
+            a {
+                display: block;
+                padding: 5px;
+            }
+            &.selected {
+                background-color: #d8d9da;
+            }
+        }
+    }
+    &.edit {
+        .input {
+            display: inline-block;
+        }
+        .item-wrapper {
+            display: none;
+        }
+        .suggest-list {
+            display: block;
+        }
+    }
+    .template {
+        display: none;
+    }
+}
+
+.error .autocomplete-widget .widget-wrapper {
+    background-color: #fff5c3;
+    border-color: $alert-color;
+    .input {
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+}
+
+.inline-group .autocomplete-widget {
+    margin: $form-spacing 0 $form-spacing 0;
+}

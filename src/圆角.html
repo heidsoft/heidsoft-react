@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*
+         border: solid; 边框实线
+         box-shadow: 4px 4px 5px 8px #aaaaaa inset; 盒子阴影
+        */
+        .test-class{
+            background: #655;
+            padding: .8em;
+        }
+
+        .test-class > div{
+            background: tan;
+            border-radius:5em;
+            padding: 1em;
+        }
+
+        .test-yuan{
+            background: #fb3;
+            width: 200px;
+            height: 200px;
+            border-radius: 70px; /* border-radius的值为边长一半，对应生成的圆 */
+        }
+    </style>
+</head>
+<body>
+<div>css圆角测试</div>
+
+<div class="test-class">
+    <div>
+        圆角测试
+    </div>
+</div>
+
+<div class="test-yuan">
+    画圆测试
+</div>
+</body>
+</html>
