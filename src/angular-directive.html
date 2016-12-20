@@ -62,6 +62,23 @@
         </my-pane>
     </my-tabs>
 </div>
+
+<div ng-controller="Controller9">
+    <h1>测试重复生成元素并,自定义color</h1>
+    <ui repeater="5" my-color="colors">
+        <li>hello</li>
+    </ui>
+</div>
+
+<div ng-controller="Controller10">
+    <div>我的名字是：<span ng-bind="name"></span>
+        <!-- 使用"ng-bind"防止网络状态不佳时出现没有被赋值表达式   -->
+        <br/>我的年龄是：<span ng-bind="age"></span>
+    </div>
+    <!-- 使用属性声明指令 -->
+    <!--<div  my-directive></div>-->
+    <div my-directive my-name="{{name}}" age="age"  change-my-age="changeAge()"></div>
+</div>
 </body>
 </html>
 <script>
@@ -107,6 +124,18 @@
                     }, 2000);
                 };
             }])
+            .controller('Controller9', ['$scope', function ($scope) {
+                $scope.colors =[1,2,3,4,5];
+            }])
+            .controller("Controller10", function ($scope) {
+                //J1 这里我们在作用域里初始化两个变量
+                $scope.name = "dreamapple";
+                $scope.age = 20;
+                //J2 创建一个方法，修改我们创建的对象的年龄
+                $scope.changeAge = function () {
+                    $scope.age = 22;
+                }
+            })
             .directive('myCustomer', function() {
                 //Template-expanding directive
                 return {
@@ -286,5 +315,47 @@
                     },
                     templateUrl: 'my-pane.html'
                 };
+            })
+            .directive('repeater', function () {
+                return {
+                    restrict: 'A',
+                    scope: { colors: "=myColor" },//隔离作用域,使用双向绑定颜色
+                    compile: function(element, attrs) {
+                        return {
+                            post: function postLink( scope, element, attributes ) {
+                                //这里写业务逻辑最安全
+                                console.log(element);
+                                var template = angular.element(element).children().clone();
+                                console.log(template);
+                                for(var i=0; i<attrs.repeater - 1; i++) {
+                                    angular.element(element).append(template.clone().css);
+                                    angular.element.css('background-color', (value ? 'transparent' : attrs.myBgcolor));
+                                }
+                                console.log(scope.colors);
+                                console.log(attributes.repeater + ' (post-link)'  );
+                            }
+                        };
+                    }
+                };
+            })
+            .directive("myDirective", function () {
+                var obj = {
+                    //J4   指令的声明模式为 "AE" 属性和元素
+                    restrict: "AE",
+                    //J5   指令继承父作用域的属性和方法
+                    scope: {
+                        name: '@myName',//单项
+                        age: '=',//双向
+                        changeAge: '&changeMyAge'//函数
+                    },
+                    replace: true,
+                    template: "<div class='my-directive'>" +
+                    "<h3>下面部分是我们创建的指令生成的</h3>" +
+                    "我的名字是：<span ng-bind='name'></span><br/>" +
+                    "我的年龄是：<span ng-bind='age'></span>" +
+                    "<input type='text' ng-model='name'>"+
+                    " </div>"
+                }
+                return obj;
             });
 </script>
