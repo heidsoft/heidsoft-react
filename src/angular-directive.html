@@ -3,7 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+    <style type="text/css">
+        .datepickerdemoBasicUsage {
+            /** Demo styles for mdCalendar. */
+        }
+        .datepickerdemoBasicUsage md-content {
+            padding-bottom: 200px;
+        }
+        .datepickerdemoBasicUsage .validation-messages {
+            font-size: 12px;
+            color: #dd2c00;
+            margin-left: 15px;
+        }
+
+    </style>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 </head>
 <body>
 <div ng-controller="Controller">
@@ -79,10 +102,16 @@
     <!--<div  my-directive></div>-->
     <div my-directive my-name="{{name}}" age="age"  change-my-age="changeAge()"></div>
 </div>
+
+<div class="datepickerdemoBasicUsage" ng-controller="ControllerTestMaterial" ng-cloak>
+    <md-content layout-padding>
+        <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+    </md-content>
+</div>
 </body>
 </html>
 <script>
-    angular.module('docsSimpleDirective', [])
+    angular.module('docsSimpleDirective', ['ngMaterial', 'ngMessages'])
             .controller('Controller', ['$scope', function($scope) {
                 $scope.customer = {
                     name: 'heidsoft',
@@ -135,6 +164,34 @@
                 $scope.changeAge = function () {
                     $scope.age = 22;
                 }
+            })
+            .controller('ControllerTestMaterial', function($scope) {
+//                $scope.initDatepicker = function(){
+//                    angular.element(".md-datepicker-button").each(function(){
+//                        var el = this;
+//                        var ip = angular.element(el).parent().find("input").bind('click', function(e){
+//                            angular.element(el).click();
+//                        });
+//                        angular.element(this).css('visibility', 'hidden');
+//                    });
+//                };
+//                $scope.initDatepicker();
+                $scope.myDate = new Date();
+
+                $scope.minDate = new Date(
+                        $scope.myDate.getFullYear(),
+                        $scope.myDate.getMonth() - 2,
+                        $scope.myDate.getDate());
+
+                $scope.maxDate = new Date(
+                        $scope.myDate.getFullYear(),
+                        $scope.myDate.getMonth() + 2,
+                        $scope.myDate.getDate());
+
+                $scope.onlyWeekendsPredicate = function(date) {
+                    var day = date.getDay();
+                    return day === 0 || day === 6;
+                };
             })
             .directive('myCustomer', function() {
                 //Template-expanding directive
@@ -324,15 +381,10 @@
                         return {
                             post: function postLink( scope, element, attributes ) {
                                 //这里写业务逻辑最安全
-                                console.log(element);
                                 var template = angular.element(element).children().clone();
-                                console.log(template);
                                 for(var i=0; i<attrs.repeater - 1; i++) {
-                                    angular.element(element).append(template.clone().css);
-                                    angular.element.css('background-color', (value ? 'transparent' : attrs.myBgcolor));
+                                    angular.element(element).append(template.clone());
                                 }
-                                console.log(scope.colors);
-                                console.log(attributes.repeater + ' (post-link)'  );
                             }
                         };
                     }
