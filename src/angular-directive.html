@@ -108,6 +108,38 @@
         <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
     </md-content>
 </div>
+
+
+<div ng-controller="TestCheckBoxController">
+    <h1>测试checkbox</h1>
+    <span ng-repeat="list in lists">
+        <input type="checkbox" ng-model="formData.checkboxes[list.value]"/>
+                 {{ list.value }} {{ list.number }} {{ list.description }}
+        <br/>
+    </span>
+
+    <div>
+        {{formData.checkboxes}}
+    </div>
+
+    <div>
+        <button style="font-size: large">清除checkbox列表</button>
+    </div>
+
+    <div>
+        <input type="checkbox" ng-model="myName" ng-checked="myChecked()"/>
+    </div>
+
+    <div style="margin-left: 40px;">
+        <label>Check me to check both: <input type="checkbox" ng-model="master"></label><br/>
+        <input id="checkSlave" type="checkbox" ng-checked="master" aria-label="Slave input">
+        <div>
+            显示值为:{{master}}
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
 <script>
@@ -166,16 +198,6 @@
                 }
             })
             .controller('ControllerTestMaterial', function($scope) {
-//                $scope.initDatepicker = function(){
-//                    angular.element(".md-datepicker-button").each(function(){
-//                        var el = this;
-//                        var ip = angular.element(el).parent().find("input").bind('click', function(e){
-//                            angular.element(el).click();
-//                        });
-//                        angular.element(this).css('visibility', 'hidden');
-//                    });
-//                };
-//                $scope.initDatepicker();
                 $scope.myDate = new Date();
 
                 $scope.minDate = new Date(
@@ -192,6 +214,36 @@
                     var day = date.getDay();
                     return day === 0 || day === 6;
                 };
+            })
+            .controller('TestCheckBoxController', function($scope) {
+                $scope.formData = {
+                    checkboxes: {}
+                };
+
+                $scope.lists = [
+                    {
+                        value:'value1',
+                        number: '1',
+                        description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                    },
+
+                    {
+                        value:'value2',
+                        number: '2',
+                        description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                    },
+
+                    {
+                        value:'value3',
+                        number: '3',
+                        description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                    }
+                ];
+                $scope.myChecked=function () {
+                    console.log("myChecked......");
+                    return true;
+                };
+                $scope.myName={value:"demo"};
             })
             .directive('myCustomer', function() {
                 //Template-expanding directive
